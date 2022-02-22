@@ -1,0 +1,22 @@
+
+services:
+  tf:
+    image: tf-test-img
+    container_name: bml-container
+    working_dir: /project
+    tty: true
+    #user: 1000:1000
+    volumes:
+      - $PWD:/project:rw
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - $HOME/.Xauthority:/root/.Xauthority:rw
+      - $HOME/.keras:/root/.keras:rw
+    environment:
+      - DISPLAY=$DISPLAY
+      - PYTHONUNBUFFERED=1
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [gpu]
